@@ -3,59 +3,68 @@
 @tailwind utilities;
 
 /* ========================================================================
-   MỤC LỤC HỆ THỐNG CSS 2.0 (OMNI-CHANNEL DESIGN SYSTEM)
-   ========================================================================
-   1. ROOT VARIABLES ..... Cấu hình màu sắc, ánh sáng, vật lý
-   2. RESET & BASE ....... Tối ưu hiển thị đa thiết bị, Font chữ lỏng
-   3. ANIMATIONS ......... Thư viện chuyển động (Keyframes)
-   4. COMPONENTS ......... Nút, Thẻ, Input, Modal, Loader
-   5. UTILITIES .......... Tiện ích hỗ trợ layout, hiệu ứng
-   6. MOBILE OPTIMZ ...... Tối ưu riêng cho iOS/Android
-   ========================================================================
-*/
+   HỆ THỐNG OMNI-CHANNEL CSS v3.0 (TITANIUM EDITION)
+   Author: Magic Team
+   Description: Core styles, Animations, Components & Reset
+   ======================================================================== */
 
 /* ========================================================================
-   1. ROOT VARIABLES (BỘ NÃO)
+   1. ROOT VARIABLES (BẢNG ĐIỀU KHIỂN TRUNG TÂM)
    ======================================================================== */
 @layer base {
   :root {
-    /* --- COLOR DNA (BẢNG MÀU) --- */
-    --background: 5 5 5;       /* Đen sâu (Super AMOLED) */
-    --foreground: 250 250 250; /* Trắng titan */
+    /* --- COLOR PALETTE (BẢNG MÀU) --- */
+    /* Màu nền chính: Đen sâu thẳm cho màn OLED */
+    --background: 5 5 5;       
+    --background-hex: #050505;
 
-    /* BRAND COLORS (Màu thương hiệu) */
-    --primary: 255 75 31;      /* Cam Cháy (Main) */
+    /* Màu chữ chính: Trắng Titan */
+    --foreground: 250 250 250; 
+    --foreground-hex: #fafafa;
+
+    /* BRAND IDENTITY (Màu thương hiệu) */
+    /* Cam Cháy (Electric Orange) - Màu chủ đạo */
+    --primary: 255 75 31;      
     --primary-rgb: 255, 75, 31;
-    --secondary: 124 58 237;   /* Tím Cyber (Sub) */
-    --success: 34 197 94;      /* Xanh lá (Status) */
-    --warning: 234 179 8;      /* Vàng (Alert) */
-    --danger: 239 68 68;       /* Đỏ (Error) */
+    --primary-hex: #ff4b1f;
+
+    /* Tím Cyber (Secondary) - Dùng cho điểm nhấn phụ */
+    --secondary: 124 58 237;   
+    --secondary-rgb: 124, 58, 237;
+
+    /* Màu trạng thái (Status Colors) */
+    --success: 34 197 94;      /* Xanh lá báo thành công */
+    --warning: 234 179 8;      /* Vàng báo lỗi nhẹ */
+    --danger: 239 68 68;       /* Đỏ báo lỗi nghiêm trọng */
     
-    /* SURFACE COLORS (Màu nền các lớp) */
+    /* SURFACE LAYERS (Các lớp bề mặt) */
     --surface-1: 10 10 10;
     --surface-2: 18 18 18;
     --surface-3: 28 28 28;
     --surface-glass: rgba(0, 0, 0, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
 
-    /* --- PHYSICS (VẬT LÝ) --- */
+    /* --- PHYSICS & SPACING (VẬT LÝ) --- */
     --radius-sm: 0.5rem;
-    --radius-md: 1rem;
-    --radius-lg: 1.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
     --radius-full: 9999px;
 
-    /* --- EASING (ĐƯỜNG CONG CHUYỂN ĐỘNG) --- */
+    /* --- ANIMATION CURVES (ĐƯỜNG CONG CHUYỂN ĐỘNG) --- */
     --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --ease-squish: cubic-bezier(0.5, -0.3, 0.1, 1.5);
     --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 
-    /* --- SHADOWS & GLOWS (ÁNH SÁNG) --- */
+    /* --- LIGHTING (ÁNH SÁNG NEON) --- */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --shadow-neon: 0 0 20px rgba(var(--primary-rgb), 0.5);
     --shadow-neon-strong: 0 0 50px rgba(var(--primary-rgb), 0.8);
     
-    /* --- Z-INDEX LAYERS (QUẢN LÝ LỚP) --- */
+    /* --- Z-INDEX SYSTEM (HỆ THỐNG LỚP) --- */
     --z-negative: -1;
     --z-normal: 1;
     --z-sticky: 100;
@@ -67,63 +76,97 @@
 }
 
 /* ========================================================================
-   2. RESET & BASE (NỀN TẢNG)
+   2. RESET & BASE STYLES (CẤU HÌNH CỐT LÕI)
    ======================================================================== */
 @layer base {
+  /* Reset mặc định cho mọi phần tử */
   * {
-    @apply border-[#27272a]; /* Màu viền mặc định */
-    box-sizing: border-box;
-    /* Tối ưu chạm trên mobile (bỏ highlight xanh) */
+    border-color: #27272a; /* Màu viền mặc định tối */
+    box-sizing: border-box; /* Tính toán kích thước chuẩn */
+    /* Tối ưu chạm trên mobile (bỏ highlight xanh mặc định của Android/iOS) */
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Cấu hình HTML gốc */
   html {
-    scroll-behavior: smooth;
-    /* Chặn kéo giãn trang trên iOS (Rubber banding) */
-    overscroll-behavior-y: none;
-    /* Font size lỏng (Fluid Typography): Tự to nhỏ theo màn hình */
+    scroll-behavior: smooth; /* Cuộn mượt */
+    overscroll-behavior-y: none; /* Chặn hiệu ứng kéo giãn trang trên iOS */
+    /* Fluid Typography: Chữ tự to nhỏ theo màn hình từ 14px đến 16px */
     font-size: clamp(14px, 1vw + 10px, 16px);
+    -webkit-text-size-adjust: 100%;
   }
 
+  /* Cấu hình BODY chính */
   body {
-    background-color: #050505;
-    color: rgb(var(--foreground)); /* Đã sửa lỗi tại đây */
+    background-color: var(--background-hex);
+    color: rgb(var(--foreground));
     
+    /* Tối ưu render font chữ sắc nét */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    
+    /* Kích hoạt các tính năng font cao cấp */
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     
+    /* --- BACKGROUND CÔNG NGHỆ CAO (PARALLAX) --- */
+    /* Lớp 1: Chấm tròn mờ ở giữa */
+    /* Lớp 2: Kẻ sọc ngang mờ */
+    /* Lớp 3: Kẻ sọc dọc mờ */
     background-image: 
       radial-gradient(circle at 50% 0%, rgba(var(--primary-rgb), 0.15), transparent 40%),
       linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px),
       linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px);
+    
     background-size: 100% 100%, 40px 40px, 40px 40px;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Giữ nền đứng yên khi cuộn */
+    
+    /* Đảm bảo chiều cao full màn hình */
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  /* Tối ưu ảnh để không bị nhảy layout (CLS) */
+  /* Tối ưu hiển thị ảnh */
   img {
-    content-visibility: auto; 
+    content-visibility: auto; /* Chỉ render khi lướt tới (Tăng tốc độ load) */
     max-width: 100%;
     height: auto;
     display: block;
+    user-select: none; /* Chống copy ảnh */
+    -webkit-user-drag: none; /* Chống kéo ảnh */
+  }
+
+  /* Bỏ style mặc định của input search trên iOS */
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
   }
 }
 
 /* ========================================================================
-   3. ANIMATIONS (THƯ VIỆN CHUYỂN ĐỘNG)
+   3. ADVANCED ANIMATIONS (THƯ VIỆN CHUYỂN ĐỘNG)
    ======================================================================== */
 @layer utilities {
   
-  /* 3.1 FADE IN UP (Cơ bản) */
+  /* 3.1 Fade In Up (Trượt từ dưới lên) */
   @keyframes fadeInUp {
-    from { opacity: 0; transform: translate3d(0, 40px, 0); }
-    to { opacity: 1; transform: translate3d(0, 0, 0); }
+    from { 
+      opacity: 0; 
+      transform: translate3d(0, 40px, 0); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translate3d(0, 0, 0); 
+    }
   }
-  .animate-in-up { animation: fadeInUp 0.8s var(--ease-smooth) forwards; }
+  .animate-in-up { 
+    animation: fadeInUp 0.8s var(--ease-smooth) forwards; 
+  }
 
-  /* 3.2 GLITCH EFFECT (Hiệu ứng nhiễu sóng Cyberpunk) */
+  /* 3.2 Glitch Effect (Nhiễu sóng Cyberpunk) */
   @keyframes glitch {
     0% { transform: translate(0); }
     20% { transform: translate(-2px, 2px); }
@@ -134,127 +177,260 @@
   }
   .hover-glitch:hover {
     animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-    color: rgb(var(--primary-rgb));
+    color: var(--primary-hex);
     text-shadow: 2px 2px #ff00c1, -2px -2px #00fff9;
   }
 
-  /* 3.3 NEON PULSE (Nhịp thở Neon) */
+  /* 3.3 Neon Pulse (Nhịp thở Neon - Dùng cho Badge/Nút) */
   @keyframes pulseNeon {
     0%, 100% { box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.2); }
     50% { box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.6); }
   }
-  .animate-pulse-neon { animation: pulseNeon 3s infinite; }
+  .animate-pulse-neon { 
+    animation: pulseNeon 3s infinite; 
+  }
+  .animate-pulse-slow { 
+    animation: pulseNeon 4s infinite; 
+  }
 
-  /* 3.4 SHIMMER (Quét sáng Skeleton) */
+  /* 3.4 Shimmer (Quét sáng Skeleton Loading) */
   @keyframes shimmer {
     0% { transform: translateX(-150%); }
     100% { transform: translateX(150%); }
   }
   .animate-shimmer {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
     animation: shimmer 1.5s infinite;
+    z-index: 10;
   }
 
-  /* 3.5 FLOAT (Trôi lơ lửng) */
+  /* 3.5 Float (Trôi lơ lửng - Dùng cho vật thể 3D) */
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
-  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-float { 
+    animation: float 6s ease-in-out infinite; 
+  }
 
-  /* 3.6 SPIN (Xoay tròn) */
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .animate-spin-slow { animation: spin 3s linear infinite; }
+  /* 3.6 Spin (Xoay tròn chậm) */
+  @keyframes spin { 
+    to { transform: rotate(360deg); } 
+  }
+  .animate-spin-slow { 
+    animation: spin 3s linear infinite; 
+  }
 }
 
 /* ========================================================================
-   4. COMPONENTS (LINH KIỆN UI)
+   4. COMPONENTS SYSTEM (THƯ VIỆN GIAO DIỆN)
+   LƯU Ý: Đã viết bằng CSS thuần để fix lỗi @apply của Netlify
    ======================================================================== */
 @layer components {
 
-  /* --- 4.1 BUTTONS --- */
+  /* --- 4.1 BUTTONS (HỆ THỐNG NÚT BẤM) --- */
   
   /* Nút Chính (Flagship Button) */
   .btn-tech-primary {
-    @apply relative overflow-hidden flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-white uppercase tracking-wider transition-all duration-300 transform active:scale-95 select-none;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* FIX LỖI gap-2: Dùng CSS thuần */
+    gap: 0.5rem; 
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    
+    /* Typography */
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.875rem;
+    
+    /* Interaction */
+    transition: all 0.3s var(--ease-smooth);
+    cursor: pointer;
+    user-select: none;
+    
+    /* Visuals */
     background: linear-gradient(135deg, rgb(var(--primary-rgb)), #ff9068);
     box-shadow: 
       inset 0 1px 0 rgba(255,255,255,0.2),
       0 10px 20px -5px rgba(var(--primary-rgb), 0.4);
-    /* Tối ưu GPU */
+      
+    /* Performance */
     will-change: transform, box-shadow; 
   }
+  
   .btn-tech-primary:hover {
     box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.6);
     filter: brightness(1.1);
     transform: translateY(-2px);
   }
-
-  /* Nút Phụ (Ghost Button) */
-  .btn-tech-ghost {
-    @apply relative flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-gray-400 bg-white/5 border border-white/5 transition-all duration-200;
-    backdrop-filter: blur(10px);
+  
+  .btn-tech-primary:active {
+    transform: scale(0.95);
   }
+
+  /* Nút Phụ (Ghost Button - Kính mờ) */
+  .btn-tech-ghost {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    
+    font-weight: 600;
+    color: #9ca3af; /* Gray-400 */
+    font-size: 0.875rem;
+    
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.2s var(--ease-smooth);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+  
   .btn-tech-ghost:hover {
-    @apply text-white bg-white/10 border-white/20;
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
-
-  /* Nút Icon Tròn */
-  .btn-icon-circle {
-    @apply w-10 h-10 rounded-full flex items-center justify-center bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all active:scale-90;
+  
+  .btn-tech-ghost:active {
+    transform: scale(0.95);
   }
 
-  /* --- 4.2 CARDS (THẺ) --- */
+  /* Nút Icon Tròn (Dùng cho Social/Action) */
+  .btn-icon-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.05);
+    color: #9ca3af;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .btn-icon-circle:hover {
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+    transform: scale(1.1);
+  }
+
+  /* --- 4.2 CARDS (HỆ THỐNG THẺ) --- */
   
   /* Thẻ Kính (Glassmorphism) */
   .card-glass {
-    @apply bg-[#121212]/80 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden transition-all duration-300;
+    background-color: rgba(18, 18, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); /* Cho Safari */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
   }
+  
   .card-glass:hover {
-    @apply border-white/20 bg-[#121212];
+    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(18, 18, 18, 1);
     box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
   }
 
   /* Thẻ Neon (Dùng cho VIP/Hot) */
   .card-neon {
-    @apply relative bg-black border border-white/10 rounded-2xl overflow-hidden;
+    position: relative;
+    background-color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s;
   }
+  
   .card-neon:hover {
     border-color: rgba(var(--primary-rgb), 0.5);
     box-shadow: 0 0 30px -5px rgba(var(--primary-rgb), 0.3);
   }
 
-  /* --- 4.3 INPUTS & FORMS --- */
+  /* --- 4.3 INPUTS & FORMS (NHẬP LIỆU) --- */
+  
+  /* Ô nhập liệu công nghệ cao */
   .input-tech {
-    @apply w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 transition-all;
+    width: 100%;
+    background-color: #0a0a0a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s var(--ease-smooth);
   }
+  
+  .input-tech::placeholder {
+    color: #52525b; /* Gray-600 */
+  }
+  
   .input-tech:focus {
-    @apply outline-none border-primary/50 bg-[#121212];
+    outline: none;
+    border-color: rgba(var(--primary-rgb), 0.5);
+    background-color: #121212;
     box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
   }
 
-  /* Range Slider (Thanh kéo) */
+  /* Range Slider (Thanh kéo tùy chỉnh) */
   input[type=range] {
     -webkit-appearance: none;
     background: transparent;
+    width: 100%;
+    cursor: pointer;
   }
+  
+  /* Thumb (Cục tròn để kéo) - Webkit */
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 16px; width: 16px;
+    height: 16px; 
+    width: 16px;
     border-radius: 50%;
-    background: rgb(var(--primary-rgb));
-    cursor: pointer;
+    background: var(--primary-hex);
     margin-top: -6px;
     box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.8);
     transition: transform 0.1s;
   }
-  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  
+  input[type=range]::-webkit-slider-thumb:hover { 
+    transform: scale(1.2); 
+  }
+  
+  /* Track (Thanh đường ray) - Webkit */
   input[type=range]::-webkit-slider-runnable-track {
-    width: 100%; height: 4px;
-    background: #333; border-radius: 2px;
+    width: 100%; 
+    height: 4px;
+    background: #333; 
+    border-radius: 2px;
+  }
+  
+  /* Hỗ trợ Firefox */
+  input[type=range]::-moz-range-thumb {
+    height: 16px; width: 16px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary-hex);
+    box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.8);
   }
 }
 
@@ -263,51 +439,78 @@
    ======================================================================== */
 @layer utilities {
   
-  /* 5.1 TYPOGRAPHY */
+  /* Typography Utilities */
   .text-balance { text-wrap: balance; }
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500;
-  }
-  .text-glow { text-shadow: 0 0 10px rgba(255,255,255,0.3); }
   
-  /* 5.2 SCROLLBARS */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #fff, #e5e7eb, #6b7280);
+  }
+  
+  .text-glow { 
+    text-shadow: 0 0 10px rgba(255,255,255,0.3); 
+  }
+  
+  /* Scrollbar Customization (Thanh cuộn đẹp) */
+  ::-webkit-scrollbar { 
+    width: 6px; 
+    height: 6px; 
+  }
+  
+  ::-webkit-scrollbar-track { 
+    background: transparent; 
+  }
+  
   ::-webkit-scrollbar-thumb { 
     background: #333; 
     border-radius: 10px; 
     border: 2px solid #050505; 
   }
-  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--primary-rgb)); }
   
-  .scrollbar-hide {
-    -ms-overflow-style: none; scrollbar-width: none;
+  ::-webkit-scrollbar-thumb:hover { 
+    background: var(--primary-hex); 
   }
-  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  
+  /* Ẩn thanh cuộn nhưng vẫn cuộn được */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar { 
+    display: none; /* Chrome/Safari */
+  }
 
-  /* 5.3 LAYOUT HELPERS */
+  /* Positioning Helpers */
   .center-absolute {
-    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   
   .flex-center {
-    @apply flex items-center justify-center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* 5.4 GPU HACKS (TĂNG TỐC ĐỘ RENDER) */
+  /* GPU Hacks (Tăng tốc độ render) */
   .gpu-accelerated {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
   }
   
-  /* 5.5 CONTENT VISIBILITY (CHỈ RENDER KHI CẦN - GOOGLE KHUYÊN DÙNG) */
+  /* Content Visibility (Chỉ render khi cần - Google khuyên dùng) */
   .render-lazy {
     content-visibility: auto;
     contain-intrinsic-size: 0 500px; /* Chiều cao ước lượng */
   }
 
-  /* 5.6 MASKING (MẶT NẠ MỜ) */
+  /* Masking (Mặt nạ mờ) */
   .mask-gradient-b {
     mask-image: linear-gradient(to bottom, black 80%, transparent);
     -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent);
@@ -321,23 +524,27 @@
   body {
     /* Tắt ảnh nền phức tạp trên mobile để tiết kiệm pin */
     background-image: none;
-    background-color: #050505;
+    background-color: var(--background-hex);
   }
 
-  /* Tăng vùng bấm cho các nút */
+  /* Tăng vùng bấm cho các nút (Chuẩn Apple Human Interface) */
   button, a {
-    min-height: 44px; /* Chuẩn Apple Human Interface */
+    min-height: 44px; 
     min-width: 44px;
   }
 
-  /* Tắt hover effect (vì mobile không có chuột) */
-  .btn-tech-primary:hover { transform: none; box-shadow: none; }
+  /* Tắt hover effect trên mobile (vì không có chuột) */
+  .btn-tech-primary:hover { 
+    transform: none; 
+    box-shadow: none; 
+  }
   
   /* Chỉnh lại Modal full màn hình trên mobile */
   .modal-content {
     width: 100% !important;
     height: 100% !important;
     border-radius: 0 !important;
+    max-height: 100vh !important;
   }
 }
 
@@ -345,6 +552,21 @@
    7. PRINT STYLES (KHI IN ẤN)
    ======================================================================== */
 @media print {
-  body { background: white; color: black; }
-  .no-print { display: none; }
+  body { 
+    background: white; 
+    color: black; 
+    text-shadow: none;
+  }
+  
+  .no-print { 
+    display: none !important; 
+  }
+  
+  .btn-tech-primary,
+  .btn-tech-ghost {
+    border: 1px solid #000;
+    color: #000;
+    background: none;
+    box-shadow: none;
+  }
 }

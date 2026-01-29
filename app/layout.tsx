@@ -11,7 +11,7 @@ import NextTopLoader from "nextjs-toploader";
 // Sử dụng font Geist biến thiên mới nhất để tối ưu tốc độ load
 // ============================================================================
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "./fonts/GeistVF.ttf",
   variable: "--font-geist-sans",
   weight: "100 900",
   display: "swap", // Hiển thị text ngay lập tức
@@ -19,7 +19,7 @@ const geistSans = localFont({
 });
 
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "./fonts/GeistMonoVF.ttf",
   variable: "--font-geist-mono",
   weight: "100 900",
   display: "swap",
