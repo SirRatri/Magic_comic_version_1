@@ -1,26 +1,113 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Bảng màu Dark Mode chuẩn OLED (Đen sâu) */
+  --background: #09090b; /* Đen hơn bản cũ, tạo độ sâu */
+  --foreground: #fafafa; /* Trắng sáng */
+  --primary: #ff4b1f;    /* Cam cháy (Màu thương hiệu) */
+  --secondary: #27272a;  /* Xám đậm cho thẻ card */
+  --muted: #a1a1aa;      /* Xám nhạt cho text phụ */
+  
+  /* Cấu hình chiều cao cho mobile tránh lỗi thanh địa chỉ che mất */
+  --vh: 100vh;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Font chữ sắc nét hơn trên màn hình Retina/Mac */
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Mượt mà khi cuộn trang */
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Chặn cuộn ngang tuyệt đối */
+}
+
+/* --- 1. TÙY BIẾN THANH CUỘN (SCROLLBAR) --- 
+   Làm thanh cuộn nhỏ, tối màu, nhìn rất chuyên nghiệp trên Windows 
+*/
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46; /* Màu xám thanh cuộn */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary); /* Hover vào đổi màu cam */
+}
+
+/* --- 2. HIỆU ỨNG CHỌN TEXT (SELECTION) --- 
+   Khi người dùng bôi đen chữ, nền sẽ màu cam thay vì màu xanh mặc định
+*/
+::selection {
+  background: var(--primary);
+  color: white;
+  text-shadow: none;
+}
+
+/* --- 3. TIỆN ÍCH RIÊNG (UTILITIES) --- */
+
+/* Class ẩn thanh cuộn nhưng vẫn cuộn được (Dùng cho list truyện ngang trên mobile) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hiệu ứng Skeleton Loading (Ánh sáng chạy qua) - Bản nâng cấp mượt hơn */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: #27272a; /* Nền xám */
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 50%, /* Ánh sáng trắng mờ chạy qua */
+    transparent 100%
+  );
+  animation: shimmer 2s infinite; /* Chạy vô tận */
+}
+
+/* Hiệu ứng chữ Gradient (Dùng cho tiêu đề cho ngầu) */
+.text-gradient {
+  background: linear-gradient(to right, #ff4b1f, #ff9068);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hiệu ứng nền lưới (Grid Background) - Tạo cảm giác công nghệ */
+.bg-grid {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
